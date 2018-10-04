@@ -7,6 +7,13 @@ app.set('view engine', 'handlebars');
 
 app.set('port', 3000); // Bash to change node:  setenv PORT 3001
 
+// QA Middleware
+
+app.use(function(req, res, next) {
+	res.locals.showTests = app.get('env') !== 'production' && req.query.test === '1';
+	next();
+});
+
 app.get('/', function(req, res) {
 	res.render('home');
 });
