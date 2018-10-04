@@ -1,4 +1,5 @@
 var express = require('express');
+var random = require('./random');
 
 var app = express();
 var handlebars = require('express-handlebars').create({ defaultLayout: 'main'});
@@ -12,6 +13,14 @@ app.set('port', 3000); // Bash to change node:  setenv PORT 3001
 app.use(function(req, res, next) {
 	res.locals.showTests = app.get('env') !== 'production' && req.query.test === '1';
 	next();
+});
+
+app.get('/about', function(req, res) {
+	res.render('about', {
+		random: random.randomInt(1, 500),
+		pageTestScript:  '/qa/tests-about.js',
+		title: "About Tim"
+	} );
 });
 
 app.get('/', function(req, res) {
